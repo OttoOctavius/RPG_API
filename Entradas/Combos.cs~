@@ -1,0 +1,38 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+using Microsoft.Xna.Framework.Input;
+
+namespace RPG_API{
+    public class Combos{
+
+        Arma arma;
+        Arbol<Botones> ramas;
+
+        public Combos(Arma arma)
+        {
+            this.arma = arma;
+        }
+
+        public bool hayHabilidad(params Botones[] direcciones)
+        {
+            //Si fuera el caso final, esta mal
+            if(direcciones == null)
+                return false;
+            else
+                return hayHabilidad(tail(direcciones));
+        }
+
+        public void setHabilidad(params Botones[] direcciones,Habilidad hab)
+        {
+            if(direcciones == null)
+                //agregarHabilidad
+            else
+                hayHabilidad(tail(direcciones),hab);
+        }
+
+           
+    }
+}

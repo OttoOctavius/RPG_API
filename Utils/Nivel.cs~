@@ -1,0 +1,12 @@
+namespace RPG_API{
+    public class Nivel{
+		Int nivel;
+		Int experiencia;
+		Map<Int,Int> tabla;
+
+		public Nivel(Map<Int,Int> tablaNiveles){
+			tabla = tablaNiveles
+		}
+    }
+
+ }
