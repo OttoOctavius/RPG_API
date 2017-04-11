@@ -32,6 +32,8 @@ namespace RPG_API{
 		public float descontar(iIntercambioCombate descuento);
 
 		protected float restante(float num){ return 1 - num; }
+
+		public Daño copia();
     }
 
     public class DañoFisico : Daño{
@@ -71,6 +73,7 @@ namespace RPG_API{
 			return recibido;
 		}
 
+		public Daño copia(){	return new DañoFisico(golpe(),corte(),clavar()); }	
     }
 
     public class DañoMagico: Daño{
@@ -96,6 +99,8 @@ namespace RPG_API{
 
 			return recibido;
 		}	
+
+		public Daño copia(){	return new DañoMagico(magiaBlanca(),magiaPura(),magiaOscura()); }	
     }
 
     public class DañoElementalBasico: Daño{
@@ -107,7 +112,7 @@ namespace RPG_API{
 		public float agua(){return agua;}
 		public float tierra(){return tierra;}
 
-		public Daño(float viento,float agua ,float tierra){
+		public DañoElementalBasico(float viento,float agua ,float tierra){
 			this.viento = viento;
 			this.agua = agua;
 			this.tierra = tierra;
@@ -121,6 +126,8 @@ namespace RPG_API{
 
 			return recibido;
 		}		
+
+		public Daño copia(){	return new DañoElementalBasico(viento(),agua(),tierra()); }	
     }
 
     public class DañoElemental: Daño{
@@ -145,7 +152,9 @@ namespace RPG_API{
 			this.electricidad = electricidad()*restante(atenuado.electricidad());
 
 			return recibido;
-		}		
+		}
+
+		public Daño copia(){	return new DañoElemental(fuego(),hielo(),electricidad()); }	
     }
     
 
@@ -173,6 +182,8 @@ namespace RPG_API{
 
 			return recibido;
 		}
+
+		public Daño copia(){	return new DañoAlterado(veneno(),sangrado(),maldicion()); }	
     }
 
 
@@ -181,7 +192,7 @@ namespace RPG_API{
 		private float quemaduras;
 		private float paralisis;
 
-		public Daño(float humedad,float quemaduras,float paralisis){
+		public DañoAlteradoElemental(float humedad,float quemaduras,float paralisis){
 			this.humedad = humedad;
 			this.quemaduras = quemaduras;
 			this.paralisis = paralisis;
@@ -200,12 +211,14 @@ namespace RPG_API{
 
 			return recibido;
 		}
+
+		public Daño copia(){	return new DañoAlterado(humedad(),quemaduras(),paralisis()); }
     }
 
     public class DañoCaos: Daño{
     	private float caos;
 
-		public Daño(float caos){
+		public DañoCaos(float caos){
 			this.caos = caos;
 		}
 
@@ -214,6 +227,8 @@ namespace RPG_API{
 		public float remanente(iIntercambioCombate atenuado){
 			return 0.0;
 		}
+
+		public Daño copia(){	return new DañoCaos(caos()); }
     }
 
     public class DañoMixto: Daño{
@@ -228,16 +243,180 @@ namespace RPG_API{
     		return this;
     	}
 
+
+    	public DañoMixto agregarMagia(float mBlanca,float mPura,float mOscura){
+    		this.acumulacion.add( new DañoMagico(mBlanca,mPura,mOscura));
+    		return this;
+    	}
+
+    	public DañoMixto agregarCaos(float caos){
+    		this.acumulacion.add( new DañoCaos(caos));
+    		return this;
+    	}
+
     	public DañoMixto agregarElemental(float fuego,float hielo,float electricidad){
     		this.acumulacion.add( new DañoElemental(fuego,hielo,electricidad));
     		return this;
     	}
 
-    	public DañoMixto agregarAlteradoElemental(float viento,float agua,float tierra){
-    		this.acumulacion.add( new DañoAlteradoElemental(viento,agua,tierra) );
+    	public DañoMixto agregarElementalBasico(float viento,float agua,float tierra){
+    		this.acumulacion.add( new DañoElementalBasico(viento,agua,tierra) );
     		return this;
-    	}    	
+    	}
+
+    	public DañoMixto agregarAlterados(float veneno,float sangrado,float maldicion){
+    		this.acumulacion.add( new DañoAlterado(veneno,sangrado,maldicion));
+    		return this;
+    	}
+
+    	public DañoMixto agregarElementalAlterados(float humedad,float quemaduras,float paralisis){
+    		this.acumulacion.add( new DañoAlteradoElemental(humedad,quemaduras,paralisis) );
+    		return this;
+    	}
+
+    	//Por favor, no metas el mismo dañoMixto aqui, reventara
+    	public DañoMixto agregarDaño(Daño daño){
+    		this.acumulacion.add( daño );
+    		return this;
+    	}
+
+    	public Daño build(){
+    		DañoMixto nuevo = new DañoMixto();
+    		nuevo.agregarFisico(golpe(),corte(),clavar())
+    			.agregarElementalBasico(viento(),agua(),tierra())
+    			.agregarElemental(fuego(),hielo(),electricidad())
+    			.agregarCaos(caos())
+    			.agregarMagia(magiaBlanca(),magiaPura(),magiaOscura())
+    			.agregarAlterados(veneno(),sangrado(),maldicion())
+    			.agregarElementalAlterados(humedad(),quemaduras(),paralisis());
+
+    		return nuevo;
+
+    	}
+
+		public Daño copia(){	return this.build(); }
     	
+ 		public float golpe(){
+ 			float total = 0.0;
+ 			foreach(Daño daño in acumulacion)
+    			total += daño.golpe();
+    		return total;
+   		}
+		public float corte(){
+ 			float total = 0.0;
+ 			foreach(Daño daño in acumulacion)
+    			total += daño.corte();
+    		return total;
+   		}
+		public float clavar(){
+ 			float total = 0.0;
+ 			foreach(Daño daño in acumulacion)
+    			total += daño.clavar();
+    		return total;
+   		}
+
+    	public float magiaBlanca(){
+ 			float total = 0.0;
+ 			foreach(Daño daño in acumulacion)
+    			total += daño.magiaBlanca();
+    		return total;
+   		}
+		public float magiaPura(){
+ 			float total = 0.0;
+ 			foreach(Daño daño in acumulacion)
+    			total += daño.magiaPura();
+    		return total;
+   		}
+		public float magiaOscura(){
+ 			float total = 0.0;
+ 			foreach(Daño daño in acumulacion)
+    			total += daño.magiaOscura();
+    		return total;
+   		}
+
+		public float viento(){
+ 			float total = 0.0;
+ 			foreach(Daño daño in acumulacion)
+    			total += daño.viento();
+    		return total;
+   		}
+		public float agua(){
+ 			float total = 0.0;
+ 			foreach(Daño daño in acumulacion)
+    			total += daño.agua();
+    		return total;
+   		}
+		public float tierra(){
+ 			float total = 0.0;
+ 			foreach(Daño daño in acumulacion)
+    			total += daño.tierra();
+    		return total;
+   		}
+
+		public float fuego(){
+ 			float total = 0.0;
+ 			foreach(Daño daño in acumulacion)
+    			total += daño.fuego();
+    		return total;
+   		}
+		public float hielo(){
+ 			float total = 0.0;
+ 			foreach(Daño daño in acumulacion)
+    			total += daño.hielo();
+    		return total;
+   		}
+		public float electricidad(){
+ 			float total = 0.0;
+ 			foreach(Daño daño in acumulacion)
+    			total += daño.electricidad();
+    		return total;
+   		}
+
+		public float caos(){
+ 			float total = 0.0;
+ 			foreach(Daño daño in acumulacion)
+    			total += daño.caos();
+    		return total;
+   		}
+    	public float veneno(){
+ 			float total = 0.0;
+ 			foreach(Daño daño in acumulacion)
+    			total += daño.veneno();
+    		return total;
+   		}
+    	public float sangrado(){
+ 			float total = 0.0;
+ 			foreach(Daño daño in acumulacion)
+    			total += daño.sangrado();
+    		return total;
+   		}
+    	public float maldicion(){
+ 			float total = 0.0;
+ 			foreach(Daño daño in acumulacion)
+    			total += daño.maldicion();
+    		return total;
+   		}
+
+		public float humedad(){
+ 			float total = 0.0;
+ 			foreach(Daño daño in acumulacion)
+    			total += daño.humedad();
+    		return total;
+   		}
+		public float quemaduras(){
+ 			float total = 0.0;
+ 			foreach(Daño daño in acumulacion)
+    			total += daño.quemaduras();
+    		return total;
+   		}
+		public float paralisis(){
+ 			float total = 0.0;
+ 			foreach(Daño daño in acumulacion)
+    			total += daño.paralisis();
+    		return total;
+   		}
+
+
     	public float remanente(iIntercambioCombate atenuado){
     		float total = 0.0;
     		foreach(Daño daño in acumulacion)
