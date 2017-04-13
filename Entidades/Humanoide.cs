@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 using System.Text;
 
-namespace RPG_API{
+namespace RPG_API.Entidades{
     public class Humanoide : SerVivo{
     	List<Equipo> equipado;
 

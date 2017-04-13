@@ -24,10 +24,10 @@ namespace RPG_API{
 
             foreach(Equipo eq in equipado){             //buscalo en el equipo
                 if(eq.tipoEquipo == tipoEquipo)         //si lo encontras
-                    actual = eq;                        //reemplazalo y mandalo
+                    actual = eq;                        //reemplazalo 
             }
 
-            return actual;
+            return actual;								//y mandalo
         }
 
         public Equipo sacarEquipo(String tipoEquipo){

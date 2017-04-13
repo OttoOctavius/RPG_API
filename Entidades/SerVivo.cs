@@ -5,16 +5,15 @@ using RPG_API.Utils;
 
 
 namespace RPG_API.Entidades{
-    public abstract class SerVivo : Ente{
+    public abstract class SerVivo : Ente, iNecesidades{
     	Atributos atrib;
     	Nivel lv;
 
     	float vida_act;
     	float stamina_act;
     	float mana_act;
+        iNecesidades nec;
 
-
-        Int hambre,sed;
         public SerVivo(Atributos atrib,Nivel nivel){
             lv = nivel;
             this.actualizarNivel();
@@ -22,8 +21,6 @@ namespace RPG_API.Entidades{
             vida_act = atrib.vida;
             stamina_act = atrib.stamina;
             mana_act = atrib.mana;
-            hambre = 0;
-            sed = 0;
         }
 
     	public bool murio(){
@@ -31,6 +28,16 @@ namespace RPG_API.Entidades{
     	}
 
         public void actualizarNivel();
+
+        //region necesidades
+        public SerVivo getAfectado(){ return this;}     //Solo esta no sirve :/
+        public void update();
+
+        public iNecesidades duplicarNecesidades(SerVivo sv){
+                return nec.duplicarNecesidades(sv);
+        }
+        //endregion
+
     }
 
  }
