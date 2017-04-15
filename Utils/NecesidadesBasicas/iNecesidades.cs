@@ -7,10 +7,10 @@ using RPG_API.Utils;
 namespace RPG_API.Utils.NecesidadesBasicas{
     public interface iNecesidades{
 
-        public SerVivo getAfectado();
-        public void update();
+        SerVivo getAfectado();
+        void update();
 
-        public iNecesidades duplicarNecesidades(SerVivo sv);
+        iNecesidades duplicarNecesidades(SerVivo sv);
     }
 
  }

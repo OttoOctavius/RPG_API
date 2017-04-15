@@ -6,29 +6,14 @@ using System.Text;
 
 namespace RPG_API.Equipo.Test{
     public class EquipoTest{
-
-        private int myVar;
-        public int MyProperty
-        {
-            get { return myVar;}
-            set { myVar = value;}
-        }
         
         public void testComprobarCreacionEquipo(){
-            Equipo eq = new Guantes();
-            eq.nombre 
+            Equipo eq = new Guantes("nom", "desc", 10f,10f);
+            assert(eq.getNombre == "nom");
+            assert(eq.getDescripcion == "desc");
+            assert(eq.getDurabilidad.deQue == 10f);
+            assert(eq.getPeso == 10f);
         }
-    	String nombre;
-    	String descripcion;
-    	PesoEquipo tipoEquipo;
-        Int Huecos;
-    	Int magia_requerida;
-
-        Durabilidad durabilidad;
-        Defensa defensa;
-    	float equilibrio;
-	    float peso;
-        
-
+ 
     }
  }

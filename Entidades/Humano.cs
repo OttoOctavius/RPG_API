@@ -4,10 +4,10 @@ using System.Collections.Generic;
 using System.Text;
 
 namespace RPG_API{
-    public class Personaje : SerVivo{
+    public class Humano : SerVivo{
         List<Equipo> equipado;
 
-        public Humanoide(Atributos atrib,Nivel nivel):super(atrib,nivel){
+        public Humano(Atributos atrib,Nivel nivel):super(atrib,nivel){
             equipado = new List<Equipo>();
         }
 

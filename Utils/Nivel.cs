@@ -1,12 +1,15 @@
 namespace RPG_API.Utils{
     public class Nivel{
-		Int nivel;
-		Int experiencia;
+		uint nivel;
+		uint experiencia;
 		Map<Int,Int> tabla;
+		Niveliable ente;
 
-		public Nivel(Niveliable ente,Map<Int,Int> tablaNiveles, Int experiencia){
+		public Nivel(Niveliable ente,Map<Int,Int> tablaNiveles, uint nivel,uint experiencia){
+			this.ente = ente;
 			tabla = tablaNiveles;
 			this.experiencia = experiencia;
+			this.nivel = nivel;
 		}
 
 		public bool puedeSubir(){
