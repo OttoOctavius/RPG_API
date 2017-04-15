@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 using System.Text;
 
-namespace RPG_API{
+namespace RPG_API.Combate.Defensa{
     public abstract class Defensa: iIntercambioCombate{
 
     	public DañoMixto capacidad;
@@ -20,7 +20,7 @@ namespace RPG_API{
     			afectado.serompio();
     	}
 
-    	public float formaDescuento(Equipo afectado,Daño ataque);
+    	protected float formaDescuento(Equipo afectado,Daño ataque);
     }
 
  }

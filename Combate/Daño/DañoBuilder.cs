@@ -12,6 +12,30 @@ namespace RPG_API.Combate.Daño{
 
         protected bool condicion(float f1,float f2,float f3){ return !nulos(float f1,float f2,float f3) };
 
+		public DañoBuilder addDañoIndividual(String tipo,float valor){
+			switch (tipo){
+				case "golpe": { this.agregarFisico(valor,0,0); break;};
+				case "corte": { this.agregarFisico(0,valor,0); break;};
+				case "clavar": { this.agregarFisico(0,0,valor); break;};
+
+    			case "magiaBlanca": { this.agregarMagia(valor,0,0); break;};
+				case "magiaPura": { this.agregarMagia(0,valor,0); break;};
+				case "magiaOscura": { this.agregarMagia(0,0,valor); break;};
+
+				case "viento": { this.agregarElementalBasico(valor,0,0); break;};
+				case "agua": { this.agregarElementalBasico(0,valor,0); break;};
+				case "tierra": { this.agregarElementalBasico(0,0,valor); break;};
+
+				case "fuego": { this.agregarElemental(valor,0,0); break;};
+				case "hielo": { this.agregarElemental(0,valor,0); break;};
+				case "electricidad": { this.agregarElemental(0,0,valor); break;};
+				default: return otros(tipo);
+			}
+			return this;
+		}
+
+		protected virtual float setotros(String tipo){}
+
     	public DañoBuilder agregarFisico(float golpe,float corte,float clavar){
             if( condicion(golpe,corte,clavar) )
     		    this.acumulacion.add( new DañoFisico(golpe,corte,clavar) );
