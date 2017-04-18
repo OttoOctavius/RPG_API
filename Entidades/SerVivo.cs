@@ -1,30 +1,29 @@
 using System;
 using System.Text;
 using System.Collections.Generic;
-using RPG_API.Utils;
+using RPG_API.Utils.*;
 
 
 namespace RPG_API.Entidades{
-    public abstract class SerVivo : Ente, iNecesidades{
+    public abstract class SerVivo : Ente, iNecesidades, Observer ,Niveliable{
     	Atributos atrib;
     	Nivel lv;
 
-    	float vida_act;
-    	float stamina_act;
-    	float mana_act;
+        public ParametrosVariables vida,stamina,mana;
+
         iNecesidades nec;
 
         public SerVivo(Atributos atrib,Nivel nivel){
             lv = nivel;
             this.actualizarNivel();
 
-            vida_act = atrib.vida;
-            stamina_act = atrib.stamina;
-            mana_act = atrib.mana;
+            vida = new ParametrosVariables(atrib.vida,this,"vida");
+            stamina = new ParametrosVariables(atrib.stamina,this,"stamina");
+            mana = new ParametrosVariables(atrib.mana,this,"mana");
         }
 
     	public bool murio(){
-    		return vida_act<=0;
+    		return vida.getEstado()<=0;
     	}
 
         public void actualizarNivel();
