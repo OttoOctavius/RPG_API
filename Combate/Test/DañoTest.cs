@@ -1,7 +1,10 @@
+using NUnit.Framework;
+
 namespace RPG_API.Combate.Test{
+    [TestFixture]
     public class DañoTest{
 
-        @Test
+        [Test]
     	public void testDañoFisico(){
  			DañoFisico df1 = new DañoFisico(3,3,3);
  			DañoFisico df2 = df.copia();
@@ -53,10 +56,10 @@ namespace RPG_API.Combate.Test{
     	public void testDaño(Daño df1,Daño df2,String[] tipos ){
             foreach(String elem in df1.getTipos() ){
                 if( tipos.include(elem) )
-                    assertTrue(df1.getDaño(elem)==3);
+                     Assert.AreEqual(df1.getDaño(elem),3); 
                 else
-                    assertTrue(df1.getDaño(elem)==0);
- 			    assertTrue(df1.getDaño(elem)==df2.getDaño(elem));
+                     Assert.AreEqual(df1.getDaño(elem),0);
+                Assert.AreEqual(df1.getDaño(elem),df2.getDaño(elem));    
             }
         }   
 

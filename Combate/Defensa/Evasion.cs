@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 
 namespace RPG_API.Combate.Defensa{
-    public abstract class Evasion: iIntercambioCombate{
+    public class Evasion: iIntercambioCombate{
         DefensaFraccionaria evasion;
 
     	public Evasion(DefensaFraccionaria evasion ){

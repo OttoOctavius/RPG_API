@@ -8,12 +8,12 @@ namespace RPG_API{
         List<Equipo> equipado;
 
         public Humano(Atributos atrib,Nivel nivel):super(atrib,nivel){
-            equipado = new List<Equipo>();
+            equipado = new ArrayList<Equipo>();
         }
 
 
         public recibirDaño(Daño ataque){
-            foreach(Equipo eq in equipado){              //reparte el daño a todo el equipo
+            foreach(Equipo eq sin equipado){              //reparte el daño a todo el equipo
                 ataque = eq.recibirDaño(ataque);         //resto del ataque, para el personaje
             }
             ataque.Descontardelpersonaje();
