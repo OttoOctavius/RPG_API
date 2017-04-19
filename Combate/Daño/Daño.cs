@@ -1,6 +1,6 @@
 
 namespace RPG_API.Combate.Daño{
-    public abstract class Daño : iIntercambioDañoCombate{
+    public abstract class Daño : iAtaque{
 
 		public float getDaño(String tipo){
 			switch (tipo){

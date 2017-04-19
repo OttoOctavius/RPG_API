@@ -1,6 +1,7 @@
 namespace RPG_API.Utils{
     public interface Niveliable{
-		public void subioNivel();
+		  void subioNivel();
+      void puedeSubir();
     }
 
  }
