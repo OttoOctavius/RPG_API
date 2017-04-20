@@ -44,6 +44,19 @@ namespace RPG_API.Utils.ParametrosVariables{
 			actual = maxima;
 	}
 
+	public void atenuar(float cantidad){
+		actual *= cantidad;
+		if( actual > maxima)
+			actual = maxima;
+		else if( actual <= 0 ){
+			actual = 0;
+			this.avisar(mensaje);
+		}
+	}
+
+
+
+
 	public void avisar(String mensaje){
 		involucrado.avisar(mensaje);
 	}	
