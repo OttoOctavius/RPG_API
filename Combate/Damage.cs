@@ -1,17 +1,17 @@
 namespace RPG_API.Combate{
     public class Damage {
 
-        public AtaqueComplejo dmg;
+        public AttackComplex dmg;
 
 		/**
         Se espera que el que lo invoco sea del tipo fraccionario
         */
 		public float remanente(iAtaque atenuado){
 			float recibido = 0f;
-            foreach (var item in dmg.getDom())
+            foreach (var item in dmg.getTypes())
             {
-                recibido += dmg.getAtaque(item) * atenuado.getAtaque(item);
-                dmg.atenuarAtaqueSimple(item, restante(atenuado.getAtaque(atenuado)) );
+                recibido += dmg.getAttack(item) * atenuado.getAttack(item);
+                dmg.atenuarAtaqueSimple(item, restante(atenuado.getAttack(atenuado)) );
             }
 			return recibido;
 		}
@@ -22,11 +22,11 @@ namespace RPG_API.Combate{
         public float descontar(iAtaque descuento){
 			float recibido = 0f, diferencia = 0f;
 
-            foreach (var item in dmg.getDom())
+            foreach (var item in dmg.getTypes())
             {
-                diferencia = dmg.getAtaque(item); //Valor viejo
-                dmg.getAtaque(item).reducir( descuento.getAtaque(item).getEstado() ); //nuevo, minimo 0
-                recibido +=  diferencia - dmg.getAtaque(item).getEstado();
+                diferencia = dmg.getAttack(item); //Valor viejo
+                dmg.getAttack(item).reducir( descuento.getAttack(item).getEstado() ); //nuevo, minimo 0
+                recibido +=  diferencia - dmg.getAttack(item).getEstado();
             }
 			return recibido;           
 		}
