@@ -6,15 +6,9 @@ using RPG_API.Utils.ParametrosVariables;
 using System.Text;
 
 namespace RPG_API.Equipo{
-    public abstract class Equipo : Observer{
-    	private String nombre;
-        public String getNombre { get{ return nombre;}; }
-    	private String descripcion;
-        public String getDescrip { get{ return descripcion;}; }
+    public abstract class Equipo : Observer,iRecogibles{
 
-        public Equipo(String nombre, String descripcion, float durabilidadMaxima){
-            this.nombre = nombre;
-            this.descripcion = descripcion;
+        public Equipo(Int durabilidadMaxima){
             this.durabilidad = new ParametroRecargable(durabilidadMaxima,this,"Durabilidad");
         }
         

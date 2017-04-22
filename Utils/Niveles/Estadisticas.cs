@@ -8,7 +8,7 @@ namespace RPG_API.Utils{
 		Map<String,uint> atributo;
 		
 		List<String> dominio_modificable;
-		public int dominio { get{ return dominio_modificable; }; 
+		public List<String> dominio { get{ return dominio_modificable; }; 
 							 set{ dominio_modificable.add(value); }; 
 		}
 /*		

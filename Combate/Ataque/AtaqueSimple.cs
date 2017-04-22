@@ -4,7 +4,7 @@ namespace RPG_API.Combate.Ataque{
         protected String tipo1;
         protected float ataque1;
 
-        public int tipo { get{return tipo1;};}
+        public String tipo { get{return tipo1;};}
         
         private float maximo;
 
