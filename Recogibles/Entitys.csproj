@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{231357F2-56AE-46BF-B54B-325E08C5D63B}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Recogibles</RootNamespace>
+    <AssemblyName>Recogibles</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="iRecogibles.cs" />
+    <Compile Include="PesoEquipo.cs" />
+    <Compile Include="Tipos\EquipStrategy.cs" />
+    <Compile Include="Tipos\MagicStrategy.cs" />
+    <Compile Include="Tipos\NormalStrategy.cs" />
+    <Compile Include="Tipos\TypeStrategy.cs" />
+    <Compile Include="Tipos\UnknowStrategy.cs" />
+    <Compile Include="Extras\Pergamino.cs" />
+    <Compile Include="Extras\Posion.cs" />
+    <Compile Include="Equipment\Equipo.cs" />
+    <Compile Include="Equipment\Botas.cs" />
+    <Compile Include="Equipment\Casco.cs" />
+    <Compile Include="Equipment\Guantes.cs" />
+    <Compile Include="Equipment\Armadura.cs" />
+    <Compile Include="Oficios\Guerrero.cs" />
+    <Compile Include="Oficios\Oficio.cs" />
+    <Compile Include="Ente.cs" />
+    <Compile Include="Humano.cs" />
+    <Compile Include="Humanoide.cs" />
+    <Compile Include="SerVivo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Equipment\" />
+    <Folder Include="Oficios\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Utils\Utils.csproj">
+      <Project>{F437B627-03C5-463E-915F-D9FAC970E260}</Project>
+      <Name>Utils</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Combat\Combat.csproj">
+      <Project>{72514BBC-8E89-426E-B864-09E4F5AAF04C}</Project>
+      <Name>Combat</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+</Project>

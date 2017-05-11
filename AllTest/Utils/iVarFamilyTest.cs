@@ -1,7 +1,5 @@
-using RPG_API.Utils;
-
-namespace RPG_API.Utils.Test{
-    public class DurabilidadTest{
+namespace AllTest.Utils{
+    public class iVarFamilyTest{
 
         @Test
 		public testSeCreaDurabilidad(){
