@@ -3,11 +3,11 @@ using System.Collections.Generic;
 
 using System.Text;
 
-namespace RPG_API.Combate.Defensa{
+namespace Combat.DefEvStrategy{
     public class FormaDescuentoFraccionaria{
 
-        public float formaDescuento(Equipo afectado,Daño ataque){
-            return ataque.remanente(afectado.defensa);
+		public float formaDescuento(iReceptor rec,Damage ataque){
+			return 0f; //ataque.remanente(afectado.defensa);
         }
     }
 

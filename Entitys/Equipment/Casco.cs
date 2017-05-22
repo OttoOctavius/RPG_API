@@ -5,10 +5,8 @@ using System.Text;
 
 namespace Entitys.Equipment{
     public class Casco : Equipo{
-		public Casco(String nombre, String descripcion, float durabilidadMaxima,float peso)
-			:base( (uint) durabilidadMaxima){
-                //falta configurar la defensa
-                this.peso = peso;
+		public Casco(float durabilidadMaxima,PesoEquipo tipoEq, float peso)
+			:base( (uint) durabilidadMaxima,tipoEq,peso){
             }
     }    
 

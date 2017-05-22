@@ -30,8 +30,23 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MyClass.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Duration\DurGradual.cs" />
+    <Compile Include="Duration\DurInmediato.cs" />
+    <Compile Include="Duration\DurNormal.cs" />
+    <Compile Include="Duration\DurNull.cs" />
+    <Compile Include="Duration\DurDelay.cs" />
+    <Compile Include="Type\EffAgotado.cs" />
+    <Compile Include="Type\EffEnvenenamiento.cs" />
+    <Compile Include="Type\EffRestablecer.cs" />
+    <Compile Include="Type\EffResucitar.cs" />
+    <Compile Include="Type\EffType.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Utils\Utils.csproj">
+      <Project>{F437B627-03C5-463E-915F-D9FAC970E260}</Project>
+      <Name>Utils</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

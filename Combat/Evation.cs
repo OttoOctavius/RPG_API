@@ -1,24 +1,28 @@
 using System;
 using System.Collections.Generic;
-
+using Combat.Attacks;
 using System.Text;
+using Utils;
 
-namespace RPG_API.Combate{
-    public class Evation{
+namespace Combat{
+    public class Evation<T>{
 
-    	public Ataque evasion;
-        Equipo equipo;
+    	public iAttack<float> evasion;
+		private iReceptor afectado;
 
-    	public Defensa(Equipo equipo){
-            this.equipo = equipo;
+		public Evation(iReceptor rec){
+			this.afectado = rec;
         }
 
     	public void procesarDgm(Damage dmg, float evadio){
-            foreach(String tipo in dmg.getTipo()){     //Para cada daño
-                if(evasion.getAtaque(tipo)>evadio)     //Si las chances de evasion se cumplen
-                    dmg.remover(tipo);                   //Absorbe todo
+			var max = evasion.AttackMax();
+			var atkEfectivo = evasion.copy().rem( max );
+			foreach(string tipo in dmg.getTypes()){     //Para cada tipo de ataque del daño
+				if (evasion.getAttack(tipo) > evadio)     //Si las chances de evasion se cumplen
+					atkEfectivo.addAttack(new AttackSimple<float>(tipo, new Float(max)));
                 }
-            equipo.procesarDgm(dmg);
+
+			dmg.remanente(atkEfectivo);
     	}
 
     }

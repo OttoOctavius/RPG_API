@@ -1,44 +1,52 @@
+using NUnit.Framework;
+using Utils;
+
+
 namespace AllTest.Utils{
+	[TestFixture]
     public class iVarFamilyTest{
 
-        @Test
-		public testSeCreaDurabilidad(){
-            Equipo mock = Guantes();
-            Durabilidad dur = new Durabilidad(20,mock);
-            assert(dur.deQue == mock);
-            assert(dur.getEstado == 20f);
+		[Test]
+		public void testUInt(){
+			var uInt = new UInt(20);
+			var cp = uInt.copy();
+			Assert.AreEqual(uInt.get(), 20);
+			Assert.AreEqual(uInt.get(), cp.get());
+			Assert.AreEqual(uInt.nulo(), 0);
+
+			uInt.add(20);
+			uInt.reduce(10);
+			Assert.AreEqual(uInt.get(), 30);
+			Assert.AreNotEqual(uInt.get(), cp.get());
+
+			uInt.mult(10f);
+			Assert.AreEqual(uInt.get(), 300);
+
+			uInt.set(200);
+			Assert.AreEqual(uInt.get(), 200);
         }
 
-        @Test
-		public testSeReduce(){
-            Equipo mock = Guantes();
-            Durabilidad dur = new Durabilidad(20,mock);
-            dur.reducir(5f);
-            assert(dur.getEstado == 15f);
-            dur.reducir(10f);
-            assert(dur.getEstado == 5f);           
-        }
+		[Test]
+		public void testFloat()
+		{
+			var f = new Float(20f);
+			var cp = f.copy();
+			Assert.AreEqual(f.get(), 20f);
+			Assert.AreEqual(f.get(), cp.get());
+			Assert.AreEqual(f.nulo(), 0f);
 
-        @Test
-		public testSeReduce(){
-            Equipo mock = Guantes();
-            Durabilidad dur = new Durabilidad(20,mock);
-            dur.reducir(5f);
-            dur.restaurar(10f);
-            assert(dur.getEstado == 20f);           
-        }
+			f.add(20f);
+			f.reduce(10f);
+			Assert.AreEqual(f.get(), 30f);
+			Assert.AreNotEqual(f.get(), cp.get());
 
-        @Test
-		public testSeRompe(){
-            Equipo mock = Guantes();
-            Durabilidad dur = new Durabilidad(20,mock);
-            dur.reducir(20f);
-            checked
-            {
-                mock.seRompio();
-            }
-            assert(dur.getEstado == 0f);            
-        }
+			f.mult(10f);
+			Assert.AreEqual(f.get(), 300f);
+
+			f.set(200f);
+			Assert.AreEqual(f.get(), 200f);
 		}
+	
+	}
 
  }

@@ -1,31 +1,75 @@
-namespace RPG_API.Combate.Attacks{
-    public class AttackSimple : iAttack{
+using Combat;
+using System;
+using Utils;
 
-        protected String tipo1;
-        protected float ataque1;
-        
-        private float maximo;
+namespace Combat.Attacks{
+	public class AttackSimple<T> : iAttack<T>
+	{
 
-        public AttackSimple(String tipo, float val,float maximo){
-            tipo1 = tipo;
-            this.maximo = maximo;
-            ataque1 = (val>maximo)?maximo:val;
-        }
+		protected string tipo;
+		protected iVar<T> ataque;
+		public static T maximo;
 
-        public AttackSimple(String tipo, float val){
-            tipo1 = tipo;
-            maximo = val;
-            ataque1 = val;
-        }
-c
-		public override float getAttack(String tipo){ 
-            if( tipo1.equals(tipo) )
-                return ataque1;
-            else
-                return 0.0;
-        }
+		public AttackSimple(string tipo, iVar<T> val)
+		{
+			this.tipo = tipo;
+			ataque = val;
+		}
 
-		iAtaque copy(){ return new AttackSimple(tipo1,ataque1,maximo); }
-        String[] getTypes(){ return tipos; }
-    }
+		public iAttack<T> cast() { return this; }
+
+		#region Interfaz
+		iAttack<T> iAttack<T>.copy() { return new AttackSimple<T>(tipo, ataque); }
+		string[] iAttack<T>.getTypes() { return new string[] { tipo }; }
+
+		T iAttack<T>.AttackMax()
+		{
+			return maximo;
+		}
+
+		T iAttack<T>.getAttack(string tipo)
+		{
+			if (string.Equals(this.tipo, tipo))
+				return ataque.get();
+			else
+				return ataque.nulo();
+		}
+
+		iAttack<T> iAttack<T>.addAttack(iAttack<T> ataque)
+		{
+			return cast().add(ataque.getAttack(tipo));
+		}
+
+		iAttack<T> iAttack<T>.remAttack(iAttack<T> ataque)
+		{
+			return cast().rem(ataque.getAttack(tipo));
+		}
+
+		iAttack<T> iAttack<T>.mulAttack(iAttack<float> ataque)
+		{
+			return cast().mul(ataque.getAttack(tipo));
+		}
+
+		iAttack<T> iAttack<T>.add(T num)
+		{
+			this.ataque.add(num);
+			if (ataque.CompareTo(maximo) > 0) ataque.set(maximo);
+			return this;
+		}
+
+		iAttack<T> iAttack<T>.rem(T num)
+		{
+			this.ataque.reduce(num);
+			if (ataque.CompareTo(ataque.nulo()) < 0) ataque.set(ataque.nulo());
+			return this;
+		}
+
+		iAttack<T> iAttack<T>.mul(float num)
+		{
+			this.ataque.mult(num);
+			return this;
+		}
+		#endregion
+	}
+
 }

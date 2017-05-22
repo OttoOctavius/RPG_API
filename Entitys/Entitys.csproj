@@ -39,7 +39,7 @@
     <Compile Include="Tipos\TypeStrategy.cs" />
     <Compile Include="Tipos\UnknowStrategy.cs" />
     <Compile Include="Extras\Pergamino.cs" />
-    <Compile Include="Extras\Posion.cs" />
+    <Compile Include="Extras\Potion.cs" />
     <Compile Include="Equipment\Equipo.cs" />
     <Compile Include="Equipment\Botas.cs" />
     <Compile Include="Equipment\Casco.cs" />
@@ -51,6 +51,7 @@
     <Compile Include="Raza\Humano.cs" />
     <Compile Include="Raza\Humanoide.cs" />
     <Compile Include="Raza\SerVivo.cs" />
+    <Compile Include="Tipos\HuecoStrategy.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Equipment\" />
@@ -65,6 +66,10 @@
     <ProjectReference Include="..\Combat\Combat.csproj">
       <Project>{72514BBC-8E89-426E-B864-09E4F5AAF04C}</Project>
       <Name>Combat</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Effects\Effects.csproj">
+      <Project>{C2C61A84-1BA1-4261-972E-C01C29DA6321}</Project>
+      <Name>Effects</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

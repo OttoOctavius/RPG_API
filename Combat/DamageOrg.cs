@@ -1,15 +1,17 @@
 ﻿using System;
-namespace RPG_API.Combate
+using Combat;
+
+namespace Combate
 {
-	public class DamageOrg
+	public class DamageOrg : iDamage<float>
 	{
 
-		public AttackComplex dmg;
+		public iAttack<float> dmg;
 
-		/**
-        Se espera que el que lo invoco sea del tipo fraccionario
-        */
-		public float remanente(iAtaque atenuado)
+
+        /Se espera que el que lo invoco sea del tipo fraccionario
+        
+		public float remanente(iAttack<float> atenuado)
 		{
 			float recibido = 0f;
 			foreach (var item in dmg.getTypes())
@@ -23,7 +25,7 @@ namespace RPG_API.Combate
 		/**
         Se le resta el valor de descuento al ataque
          */
-		public float descontar(iAtaque descuento)
+		public float descontar(iAttack<float> descuento)
 		{
 			float recibido = 0f, diferencia = 0f;
 

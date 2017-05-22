@@ -1,7 +1,6 @@
 
 using Combat;
 using Entitys.Raza;
-using Recogibles;
 
 namespace Entitys.Tipos{
     public abstract class TypeStrategy : iRecogibles{

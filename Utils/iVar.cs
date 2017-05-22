@@ -3,30 +3,20 @@ using System.Collections.Generic;
 
 namespace Utils
 {
-	public abstract class Variable<T>
+	public interface iVar<T> : IComparable
 	{
+		T get();
+		T nulo();
 
-		public Variable(T max)
-		{
-			val = max;
-		}
+		void add(T cantidad);
 
-		private T val;
+		void reduce(T cantidad);
 
-		public T Val
-		{
-			get { return this.val; }
-			set { val = value; }
-		}
+		void mult(float cantidad);
 
-		public abstract void restaurar(T cantidad);
+		iVar<T> copy();
 
-		public abstract void reducir(T cantidad);
-
-		public abstract void add(T cantidad);
-
-		public abstract void mult(float cantidad);
-
+		void set(T t);
 	}
 
 }

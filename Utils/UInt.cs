@@ -4,29 +4,51 @@ using System.Collections.Generic;
 namespace Utils
 {
 
-	public class VariableUInt : Variable<uint>
+	public class UInt : Utils.iVar<uint>
 	{
+		uint valor;
+		public uint get() { return valor; }
 
-		public VariableUInt(uint val) : base(val) { }
-
-		public override void restaurar(uint cantidad)
-		{
-			this.Val = this.Val + cantidad;
+		public UInt(uint val){
+			valor = val;
 		}
 
-		public override void reducir(uint cantidad)
+		public void add(uint cantidad)
 		{
-            this.Val = this.Val - cantidad;
+			valor += cantidad;
 		}
 
-		public override void add(uint cantidad)
+		public void reduce(uint cantidad)
 		{
-			throw new Exception("al pedo");
+            valor -= cantidad;
 		}
 
-		public override void mult(float cantidad)
+		public void mult(float cantidad)
 		{
-			this.Val = (uint)(this.Val * cantidad);
+			valor = (uint)(valor * cantidad);
 		}
+
+		public uint nulo()
+		{
+			return 0;
+		}
+
+		public iVar<uint> copy()
+		{
+			return new UInt(this.get());
+		}
+
+		public int CompareTo(object obj)
+		{
+			UInt comp = (UInt) obj;
+			return get().CompareTo(comp.get());
+		}
+
+		public void set(uint t)
+		{
+			valor = t;
+		}
+
+
 	}
 }

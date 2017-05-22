@@ -30,8 +30,16 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MyClass.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Niveles\Estadisticas.cs" />
+    <Compile Include="Niveles\Nivel.cs" />
+    <Compile Include="Niveles\NivelHumano.cs" />
+    <Compile Include="Niveles\Niveliable.cs" />
+    <Compile Include="Observer.cs" />
+    <Compile Include="ParametroRecargable.cs" />
+    <Compile Include="iVar.cs" />
+    <Compile Include="UInt.cs" />
+    <Compile Include="Float.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

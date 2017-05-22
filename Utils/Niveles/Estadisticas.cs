@@ -1,15 +1,16 @@
 using System;
 using System.Text;
 using System.Collections.Generic;
-using RPG_API.Utils;
+using Utils;
 
-namespace RPG_API.Utils{
+namespace Utils.Niveles{
 	public class Estadisticas {
-		Map<String,uint> atributo;
+		Dictionary<String,UInt> atributo;
 		
-		List<String> dominio_modificable;
-		public List<String> dominio { get{ return dominio_modificable; }; 
-							 set{ dominio_modificable.add(value); }; 
+		List<string> dominio_modificable;
+		public List<string> dominio{ 
+			get{ return dominio_modificable; }
+			set{ dominio_modificable.AddRange(value); }
 		}
 /*		
 		Daño damage_base;
@@ -17,8 +18,8 @@ namespace RPG_API.Utils{
 		Evasion evation_base;
 */
 		public Estadisticas(){
-			dominio_modificable = new ArrayList<String>();
-			atributo = new Map<String,uint>();
+			dominio_modificable = new List<string>();
+			atributo = new Dictionary<string, UInt>();
 /*
 			damage_base = new Daño();
 			defense_base = new Defensa();
@@ -35,7 +36,9 @@ namespace RPG_API.Utils{
 			evation_base = evation;
 		}
 		*/
-		public int qatributo { get(String nombre){ atributo.get("nombre")}; set; }
+		public UInt qatributo(string nombre){
+			return atributo[nombre];
+		}
 
 	    /*uint  fuerza;
 	    uint  destreza;
@@ -50,6 +53,8 @@ namespace RPG_API.Utils{
 	    uint  inteligencia
 	    uint  sabiduria;*/
 
-		public Estadisticas getReporteMejoras(String atributo);
+		public virtual Estadisticas getReporteMejoras(string atributo){
+			throw new Exception();
+		}
 	}
  }

@@ -9,8 +9,10 @@ using Entitys.Tipos;
 namespace Entitys.Equipment{
     public class Equipo : Observer,iRecogibles{
 
-        public Equipo(uint durabilidadMaxima){
+		public Equipo(uint durabilidadMaxima, PesoEquipo tpPeso, float peso ){
             durabilidad = new UInt(durabilidadMaxima);
+			this.peso = peso;
+			tipoEquipo = tpPeso; 
         }
 
 		public TypeStrategy modificador;
@@ -18,7 +20,7 @@ namespace Entitys.Equipment{
 		//Int magia_requerida;
 		//Equipo interno
 
-		protected PesoEquipo tipoEquipo = PesoEquipo.MuyLigero;
+		protected PesoEquipo tipoEquipo;
 		protected UInt durabilidad;
 		protected Defense defensa;
     	protected float equilibrio;
@@ -33,11 +35,6 @@ namespace Entitys.Equipment{
 			get
 			{
 				return tipoEquipo;
-			}
-
-			set
-			{
-				tipoEquipo = value;
 			}
 		}
 

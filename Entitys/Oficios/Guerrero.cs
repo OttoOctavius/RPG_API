@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Utils;
 
 
-namespace RPG_API.Entidades.Oficios
+namespace Entitys.Oficios
 {
 	public class Guerrero : Oficio
 	{

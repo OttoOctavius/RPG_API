@@ -4,29 +4,51 @@ using System.Collections.Generic;
 namespace Utils
 {
 
-	public class Variablefloat : Variable<float>
+public class Float : iVar<float>
+{
+	float valor;
+
+	public Float(float val)
 	{
+		valor = val;
+	}
 
-		public Variablefloat(float val) : base(val) { }
+	public void add(float cantidad)
+	{
+		valor += cantidad;
+	}
 
-		public override void restaurar(float cantidad)
-		{
-			this.Val = this.Val + cantidad;
-		}
+	public void reduce(float cantidad)
+	{
+		valor -= cantidad;
+	}
 
-		public override void reducir(float cantidad)
-		{
-            this.Val = this.Val - cantidad;
-		}
+	public void mult(float cantidad)
+	{
+		valor *= cantidad;
+	}
 
-		public override void add(float cantidad)
-		{
-			throw new Exception("al pedo");
-		}
+	public float get(){
+		return valor;
+	}
 
-		public override void mult(float cantidad)
-		{
-			this.Val = (this.Val * cantidad);
-		}
+	public float nulo(){
+			return 0f;
+	}
+
+	public iVar<float> copy()
+	{
+			return new Float(valor);
+	}
+
+	public int CompareTo(object obj){
+		Float comp = (Float)obj;
+		return get().CompareTo(comp.get());
+	}
+
+	public void set(float t){
+			valor = t;	
+	}
+
 	}
 }

@@ -1,10 +1,36 @@
-﻿using System;
-namespace Combat
+﻿using System.Collections.Generic;
+using Combate;
+using System;
+using Combat;
+using Utils;
+
+namespace Combat.Attacks
 {
-	public class EmptyClassw
+	
+	public class AttackComplexFloat : AttackComplex<float>
 	{
-		public EmptyClassw()
-		{
+		public AttackComplexFloat(float minimo, float maximo){
+			base( new Float(minimo), new Float(maximo) );
 		}
+
+
+		public AttackComplexFloat addAttack(string tipo, float ataque)
+		{
+			base.addAttack( new AttackSimple<float>(tipo,ataque) );
+			return this;
+		}
+
+		public AttackComplexFloat remAttack(string tipo, float ataque)
+		{
+            base.remAttack( new AttackSimple<float>(tipo,ataque) );
+			return this;
+		}
+
+		public AttackComplexFloat mulAttack(float ataque)
+		{
+			base.mulAttack(ataque);
+			return this;
+		}
+
 	}
 }

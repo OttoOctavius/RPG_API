@@ -1,36 +1,47 @@
-namespace RPG_API.Combate{
-    public class Damage {
+using System;
+using Combat.Attacks;
 
-        public AttackComplex dmg;
+namespace Combat{
+	public class Damage :iDamage<float> {
+
+		private iAttack<float> atq;
+
+		public Damage(iAttack<float> attack){
+			atq = attack;
+		}
 
 		/**
         Se espera que el que lo invoco sea del tipo fraccionario
         */
-		public float remanente(iAtaque atenuado){
-			float recibido = 0f;
-            foreach (var item in dmg.getTypes())
-            {
-                recibido += dmg.getAttack(item) * atenuado.getAttack(item);
-                dmg.atenuarAtaqueSimple(item, restante(atenuado.getAttack(atenuado)) );
-            }
+		public float remanente(iAttack<float> atenuado)
+		{
+			float recibido = 0f;	//Se podria usar un lindo fold, no?
+			var atkMax = atenuado.copy().add(atenuado.AttackMax());
+
+			foreach (var item in getTypes())
+				recibido += atq.getAttack(item) * atenuado.getAttack(item);	
+			
+			atq.mulAttack( atkMax.remAttack(atenuado) );
 			return recibido;
 		}
 
-        /**
+		/**
         Se le resta el valor de descuento al ataque
          */
-        public float descontar(iAtaque descuento){
-			float recibido = 0f, diferencia = 0f;
+		public float descontar(iAttack<float> descuento){
+			float recibido = 0f;
+			var cp = atq.copy();
+			atq.remAttack( descuento );
 
-            foreach (var item in dmg.getTypes())
-            {
-                diferencia = dmg.getAttack(item); //Valor viejo
-                dmg.getAttack(item).reducir( descuento.getAttack(item).getEstado() ); //nuevo, minimo 0
-                recibido +=  diferencia - dmg.getAttack(item).getEstado();
-            }
+            foreach (var item in getTypes())
+				recibido +=  cp.getAttack(item) - atq.getAttack(item);
 			return recibido;           
 		}
 
-		protected float restante(float num){ return 1 - num; }
+		public string[] getTypes()
+		{
+			return atq.getTypes();
+		}
+
     }
 }

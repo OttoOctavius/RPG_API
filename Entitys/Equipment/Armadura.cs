@@ -1,14 +1,14 @@
 using System;
 using System.Collections.Generic;
-
+using Entitys;
 using System.Text;
+using Entitys.Equipment;
 
-namespace Recogibles.Equipment{
-    public class Armadura{
+namespace Entitys.Equipment{
+    public class Armadura : Equipo{
 		
-		public Armadura(String nombre,String descripcion, float durabilidad){
-			//todos los parametros
-		}
+		public Armadura(uint durabilidadMaxima, PesoEquipo tipoEq, float peso)
+			:base( durabilidadMaxima,tipoEq,peso) {   }
     }    
 
  }

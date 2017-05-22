@@ -3,10 +3,10 @@ using System.Collections.Generic;
 
 using System.Text;
 
-namespace RPG_API.Combate.DefEvStrategy{
-    public class FormaDescuento{
+namespace Combat.DefEvStrategy{
+    public abstract class FormaDescuento{
 
-    	public float formaDescuento(Equipo afectado,Daño ataque);
+		public float formaDescuento(iReceptor afectado, Damage ataque) { return 0f;}
     }
 
  }

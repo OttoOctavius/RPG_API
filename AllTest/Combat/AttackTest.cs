@@ -1,57 +1,74 @@
-
 using NUnit.Framework;
+using Combat.Attacks;
+using Utils;
+using System;
 
-namespace RPG_API.Combate.Test{
-    [TestFixture]
-    public class AttackTest{
+namespace Combat{
+	[TestFixture]
+	public class AttackTest{
+
+		[Test]
+		public void testAtaqueInterfazUINT()
+		{
+			string[] golpe = { "golpe" };
+			var d = new UInt(3);
+			iAttack<uint> atk = new AttackSimple<uint>(golpe[0], d);
+			var atkcp = atk.copy();
+
+			//atq.Ataque queda testeado por iVar
+			Assert.AreEqual(atk.getTypes(), golpe);
+			Assert.AreEqual(atk.getTypes(), atkcp.getTypes());
+			Assert.AreEqual(atk.getAttack(golpe[0]), 3);
+			Assert.AreEqual(atk.getAttack(golpe[0]), atkcp.getAttack(golpe[0]));
+		}
+		/*
+		[Test]
+		public void testAtaqueInterfazBYTE()
+		{
+		string[] golpe =  {"golpe"};
+			Utils.Byte d = new Byte(3);
+		iAttack<byte> atk = new AttackSimple<byte>(golpe[0], d);
+		var atkcp = atk.copy();
+
+		Assert.AreEqual(atk.getTypes(), golpe);
+		Assert.AreEqual(atk.getTypes(), atkcp.getTypes());
+		Assert.AreEqual(atk.getAttack(golpe[0]), 3);
+		Assert.AreEqual(atk.getAttack(golpe[0]), atkcp.getAttack(golpe[0]));
+		}*/
+
+		[Test]
+		public void testAtaqueInterfazfloat()
+		{
+			String[] golpe = { "golpe" };
+			var d = new Float(3f);
+			iAttack<float> atk = new AttackSimple<float>(golpe[0], d);
+			var atkcp = atk.copy();
+
+			Assert.AreEqual(atk.getTypes(), golpe);
+			Assert.AreEqual(atk.getTypes(), atkcp.getTypes());
+			Assert.AreEqual(atk.getAttack(golpe[0]), 3);
+			Assert.AreEqual(atk.getAttack(golpe[0]), atkcp.getAttack(golpe[0]));
+		}
 
         [Test]
-    	public void testAtaqueSimple(){
-    		String[] golpe =  ["golpe"];
- 			AttackSimple atk = new AttackSimple( golpe[0],3);
- 			AttackSimple atkcp = atk.copy();
+    	public void testAttackComplexInterfazFloat(){
+			AttackComplex<float> atk = new AttackComplex<float>(new Float(0f),new Float(3f) );
+			string[] cadena = { "golpe pecho", "golpe cabeza", "golpe pies" };
+			Float pt = new Float(3f);
+			atk.cast().addAttack(  new AttackSimple<float>( "golpe pecho",pt) );
+            atk.cast().addAttack(  new AttackSimple<float>( "golpe cabeza", pt) );
+            atk.cast().addAttack(  new AttackSimple<float>( "golpe pies", pt) );
+			var attack = (atk as iAttack<float>);
+			var atkcp = attack.copy();
 
- 			Assert.AreEqual( atk.getTypes(), golpe ); 
-            Assert.AreEqual( atk.getTypes(), atkcp.getTypes() ); 
-			Assert.AreEqual( atk.getAttack(), 3 ); 
-			Assert.AreEqual( atk.getAttack(), atkcp.getAttack() ); 
-        }
+			Assert.AreEqual( attack.getTypes() , cadena ); 
+			Assert.AreEqual( attack.getTypes() , atkcp.getTypes() ); 
 
-        [Test]
-    	public void testAttackNull(){
-    		String[] golpe =  ["golpe a nuca"];
- 			AttackNull df1 = new AttackNull(golpe);
- 			AttackSimple atkcp = atk.copy();
-
- 			Assert.AreEqual( atk.getTypes(), golpe ); 
-            Assert.AreEqual( atk.getTypes(), atkcp.getTypes() ); 
-			Assert.AreEqual( atk.getAttack(), 0.0 ); 
-			Assert.AreEqual( atk.getAttack(), atkcp.getAttack() ); 
-        }
-
-        [Test]
-    	public void testAttackComplex(){
- 			AttackComplex atk = new AttackComplex();
-
-            atk.agregarAtaqueSimple(  new AttackSimple( "golpe pecho",10) );
-            atk.agregarAtaqueSimple(  new AttackSimple( "golpe cabeza",3) );
-            atk.agregarAtaqueSimple(  new AttackSimple( "golpe pies",50) );
-            
-            AttackSimple atkcp = atk.copy();
-
-            this.testDaño(atk,atkcp, ["golpe pecho", "golpe cabeza" ,"golpe pies"]);
-        }
-
-
-    	public void testDaño(Daño df1,Daño df2,String[] tipos ){
-            foreach(String elem in df1.getTipos() ){
-                if( tipos.include(elem) )
-                     Assert.AreEqual(df1.getDaño(elem),3); 
-                else
-                     Assert.AreEqual(df1.getDaño(elem),0);
-                Assert.AreEqual(df1.getDaño(elem),df2.getDaño(elem));    
+			foreach(string elem in cadena ){
+				Assert.AreEqual(attack.getAttack(elem), pt.get() );
+				Assert.AreEqual(attack.getAttack(elem), atkcp.getAttack(elem)); 
             }
-        }   
+        }
 
     }   
  }

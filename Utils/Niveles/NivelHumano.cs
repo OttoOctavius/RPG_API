@@ -1,8 +1,12 @@
-namespace RPG_API.Utils{
-    public class NivelHumano : Nivel{
-		public static Map<Int,Int> tablaComun;
+using System;
+using System.Collections.Generic;
 
-		public Nivel(Niveliable ente, Int experiencia):super(ente,tablaComun,experiencia);
+namespace Utils.Niveles{
+    public class NivelHumano : Nivel{
+		public static Dictionary<uint,uint> tablaComun;
+
+		public NivelHumano(Niveliable ente, uint nivel, uint experiencia) 
+				: base(ente, tablaComun, nivel, experiencia) { }
     
 		}
 

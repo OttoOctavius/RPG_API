@@ -1,69 +1,132 @@
-using RPG_API.Combate;
+using Combat;
+using System;
+using System.Collections.Generic;
+using Utils;
 
-namespace RPG_API.Combate.Attacks{
-    /**Sirve para aclarar cuales son las 
+namespace Combat.Attacks{
+	/**Sirve para aclarar cuales son todos los tipos de ataque
      */
-    public class AttackComplex : iAttack{
-        private Map<String,ParametroRecargable> ataques;
-        private Int maximo;
+	public class AttackComplex<T> : iAttack<T>
+	{
+		private Dictionary<string, iVar<T>> ataques;
+		private iVar<T> max, min;
 
-        public int getMaximo(){ return maximo; }
-        
-        public AttackComplex(Int maximo){
-            ataques = new Map<String,ParametroRecargable>();
-            this.maximo = maximo;
+		public AttackComplex(iVar<T> minimo, iVar<T> maximo)
+		{
+			ataques = new Dictionary<string, iVar<T>>();
 
-            //foreach (var item in this.getTypes() )
-            //    ataques.add(item, new ParametroRecargable(maximo,this,item));
-            //Llena de todos los tipos el mapa
-        }
+			max = maximo;
+			min = minimo;
+		}
 
-        public AttackComplex() : super(1000){
-            
-        }
+		private iVar<T> buscarOcrear(string tipo)
+		{
+			Console.WriteLine(ataques.Keys.Count);
+			if (!ataques.ContainsKey(tipo))
+			{
+				var nuevo = min.copy();
+				ataques.Add(tipo, nuevo);
+				return nuevo;
+			}
+			else
+			{
+				return ataques[tipo];
+			}
+		}
 
-        private ParametroRecargable crear(String tipo){
-            if( ataques.find(tipo) == null){
-                ParametroRecargable nuevo = new ParametroRecargable(maximo,this,tipo);
-                ataques.add(tipo,nuevo);
-                return nuevo;
-            } else
-            {
-                return ataques.find(tipo);
-            }
-        }
+		public iAttack<T> cast() { return this; }
 
+		/// <summary>
+		/// Elimina los ataques inutiles. Se recomienda usar al final.
+		/// </summary>
+		public AttackComplex<T> formatear()
+		{
+			foreach (var item in ataques.Keys)
+				if (ataques[item].Equals(min)) ataques.Remove(item);
+			return this;
+		}
 
-        public AttackBuilder addAttackSimple(AttackSimple ataque){
-            String tipo = ataque.tipo;
-            this.crear(tipo).agregar(ataque.getAttack(tipo));
-            return this;
-        }
+		#region Interfaz
+		T iAttack<T>.getAttack(string tipo)
+		{
+			if (ataques.ContainsKey(tipo))
+				return ataques[tipo].get();
+			else
+				return min.get();
+		}
 
-        public AttackBuilder remAttackSimple(AttackSimple ataque){
-            String tipo = ataque.tipo;
-            this.crear(tipo).atenuar( ataque.getAttack(tipo) );
-            return this;
-        }
+		string[] iAttack<T>.getTypes()
+		{
+			var cadenas = new string[ataques.Keys.Count];
+			ataques.Keys.CopyTo(cadenas, 0);
+			return cadenas;
+		}
 
-        public AttackBuilder addAttackComplex(AttackComplex ataque){
-            foreach (var item in ataque.getTypes() )
-                this.addAttackSimple(item,ataque.getAttack());
+		iAttack<T> iAttack<T>.copy()
+		{
+			return (new AttackComplex<T>(min, max) as iAttack<T>).addAttack(this);
+		}
 
-            return this;        
-        }
+		T iAttack<T>.AttackMax()
+		{
+			return this.max.get();
+		}
 
-		public override float getAttack(String tipo){
-            return ataques.find(tipo).getEstado();
-        }
-        
-        iAttack copy(){ 
-            AttackComplex ataq = new AttackComplex(maximo);
-            ataq.agregarAtaqueComplejo(this);
-            return ataq;
-        }
+		iAttack<T> iAttack<T>.addAttack(iAttack<T> ataque)
+		{
+			foreach (string tipo in ataque.getTypes())
+			{
+				var buscado = buscarOcrear(tipo);
+				buscado.add(ataque.getAttack(tipo));
+				if (buscado.CompareTo(max) == 1) buscado.set(max.get());
+			}
+			return this;
+		}
 
-        String[] getTypes(){ return ataques.dom(); }
+		iAttack<T> iAttack<T>.remAttack(iAttack<T> ataque)
+		{
+			foreach (var tipo in ataque.getTypes() )
+			{
+				var buscado = buscarOcrear(tipo);
+				buscado.reduce(ataque.getAttack(tipo));
+				if (buscado.CompareTo(min) == -1) buscado.set(min.get());
+			}				
 
-    }
+			return this;
+		}
+
+		iAttack<T> iAttack<T>.mulAttack(iAttack<float> ataque)
+		{
+			foreach (var tipo in ataque.getTypes())
+			{
+				var buscado = buscarOcrear(tipo);
+				buscado.mult(ataque.getAttack(tipo));
+				if(buscado.CompareTo(max) == 1) buscado.set(max.get());
+					else if(buscado.CompareTo(min) == -1) buscado.set(min.get());
+			}
+			return this;
+		}
+
+		iAttack<T> iAttack<T>.add(T num)
+		{
+			foreach (string tipo in cast().getTypes())
+				buscarOcrear(tipo).add(num);
+			return this;
+		}
+
+		iAttack<T> iAttack<T>.rem(T num)
+		{
+			foreach (string tipo in cast().getTypes())
+				buscarOcrear(tipo).reduce(num);
+			return this;
+		}
+
+		iAttack<T> iAttack<T>.mul(float num)
+		{
+			foreach (string tipo in cast().getTypes())
+				buscarOcrear(tipo).mult(num);
+			return this;
+		}
+		#endregion
+	}
 }

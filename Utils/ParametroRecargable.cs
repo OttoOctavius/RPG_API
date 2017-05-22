@@ -1,61 +1,81 @@
 using System;
 using System.Collections.Generic;
 
-namespace RPG_API.Utils.ParametrosVariables{
+namespace Utils{
     public class ParametroRecargable : Observer{
 
-    List<EfectoType> acumulados;
-	String mensaje;
 	protected Observer involucrado;
-	public Observer quien { get{ return involucrado;};}
+	public Observer quien { get{ return involucrado;}}
 
-	public ParametroRecargable(Int maximo, Observer objetivo, String mensaje){
-		maxima = maximo;
-        actual = maxima;
-		involucrado = objetivo;
-		this.mensaje = mensaje;
+	bool bloqueado_sumar, bloqueado_restar;
+	
+	public ParametroRecargable(UInt refmaxima, Observer objetivo){
+			maxima = refmaxima;
+			actual = new Float(refmaxima.get());
+			involucrado = objetivo;
+			bloqueado_sumar = bloqueado_restar = false;
 	}
 
-	protected float actual;
-    protected Int maxima;
-	public int getEstado
+	protected Float actual;
+	protected UInt maxima;
+
+	public Float getEstado
 	{
-		get { return actual;};
-	}	
-
-	public void agregar(float cantidad){
-		if(cantidad > 0)
-			restaurar(cantidad);
-		else
-			reducir(-cantidad);
+		get { return actual;}
 	}
 
-	public void reducir(float cantidad){
-		actual -= cantidad;
-		if( actual <= 0 ){
-			actual = 0;
-			this.avisar(mensaje);
-		}
+	public bool Bloqueado_sumar{
+			get
+			{
+				return bloqueado_sumar;
+			}
+
+			set
+			{
+				bloqueado_sumar = value;
+			}
 	}
 
-	public void restaurar(float cantidad){
-		actual += cantidad;
-		if( actual > maxima)
-			actual = maxima;
+	public bool Bloqueado_restar{
+			get
+			{
+				return bloqueado_restar;
+			}
+
+			set
+			{
+				bloqueado_restar = value;
+			}
+	}
+
+	bool bloqueo(float cantidad)	{
+		return (cantidad > 0 && Bloqueado_sumar || cantidad < 0 && Bloqueado_restar);
+	}
+
+	public void agregar(float cantidad)	{
+		if(bloqueo(cantidad)) return;
+			actual.add(cantidad);
+			comprobar();
 	}
 
 	public void atenuar(float cantidad){
-		actual *= cantidad;
-		if( actual > maxima)
-			actual = maxima;
-		else if( actual <= 0 ){
-			actual = 0;
-			this.avisar(mensaje);
-		}
+		if(bloqueo(cantidad)) return;
+		actual.mult( cantidad );
+		comprobar();
 	}
 
-
-
+	void comprobar(){
+		if (actual.get() > maxima.get())
+			{
+				actual.reduce(actual.get() - maxima.get());
+				this.avisar("max");
+			}
+		else if (actual.get() <= 0)
+			{
+				actual.add(actual.get());
+				this.avisar("0");
+			}
+	}
 
 	public void avisar(String mensaje){
 		involucrado.avisar(mensaje);

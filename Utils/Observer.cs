@@ -1,6 +1,6 @@
-namespace RPG_API.Utils.ParametrosVariables{
+namespace Utils{
     public interface Observer{
-		void avisar(String mensaje);
+		void avisar(string mensaje);
     }
 
  }
